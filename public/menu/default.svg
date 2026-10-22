@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Segelas minuman">
+  <rect width="200" height="200" fill="#EAF2DF"/>
+  <path d="M96 40 q-6 -9 0 -16 q6 -7 0 -14" stroke="#6E9B3F" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M112 40 q-6 -9 0 -16 q6 -7 0 -14" stroke="#6E9B3F" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <rect x="58" y="50" width="84" height="14" rx="7" fill="#0F1B3D"/>
+  <path d="M64 64 L136 64 L126 168 Q125 176 117 176 L83 176 Q75 176 74 168 Z" fill="#FFFFFF" stroke="#0F1B3D" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M68 100 L132 100 L127 160 Q126 166 120 166 L80 166 Q74 166 73 160 Z" fill="#6E9B3F"/>
+  <path d="M100 80 l4 8 9 1 -7 6 2 9 -8 -5 -8 5 2 -9 -7 -6 9 -1 z" fill="#E0A526" transform="translate(0 -4) scale(0.9) translate(11 4)"/>
+</svg>

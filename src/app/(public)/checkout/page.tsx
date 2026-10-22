@@ -1,5 +1,10 @@
-import { PagePlaceholder } from "@/components/layout/PagePlaceholder";
+import type { Metadata } from "next";
+import CheckoutForm from "@/components/checkout/CheckoutForm";
+
+export const metadata: Metadata = {
+  title: "Checkout | Space Coffee and Matcha",
+};
 
 export default function CheckoutPage() {
-  return <PagePlaceholder title="Checkout" />;
+  return <CheckoutForm />;
 }

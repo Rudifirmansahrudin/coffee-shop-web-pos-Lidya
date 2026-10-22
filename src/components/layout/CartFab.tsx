@@ -13,6 +13,8 @@ export function CartFab() {
   const count = useCartCount();
 
   if (HIDDEN_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return null;
+  // On /menu the CartBar replaces the FAB once the cart has items
+  if (pathname.startsWith("/menu") && count > 0) return null;
 
   return (
     <Link
