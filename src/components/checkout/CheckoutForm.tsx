@@ -176,7 +176,7 @@ export default function CheckoutForm() {
               maxLength={40}
               aria-invalid={!!errors.customerName}
               aria-describedby={errors.customerName ? "err-name" : "hint-name"}
-              placeholder="Contoh: Rani"
+              placeholder="Contoh: For Her"
             />
             <p id="hint-name" className="mt-1 text-sm text-muted">
               Dipakai untuk memanggilmu saat pesanan siap diambil.

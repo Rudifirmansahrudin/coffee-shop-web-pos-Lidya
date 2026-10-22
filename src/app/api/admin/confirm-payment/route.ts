@@ -2,20 +2,20 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getPaymentMode } from "@/lib/midtrans";
+import { checkRole } from "@/lib/admin-auth";
+import { broadcastOrderUpdate } from "@/lib/admin-orders-server";
 
+export const dynamic = "force-dynamic";
+
+// Unknown keys (e.g. orderId) are stripped by zod, so the admin board can send them safely.
 const bodySchema = z.object({
   code: z.string().regex(/^SPC-[A-Z0-9]+$/, "Kode pesanan tidak valid"),
 });
 
-// TEMPORARY STUB: real role check (owner/cashier) comes in P10
-function canConfirmPayment(): boolean {
-  return process.env.NEXT_PUBLIC_DEMO_ADMIN === "true";
-}
-
 export async function POST(request: Request) {
-  if (!canConfirmPayment()) {
-    return NextResponse.json({ error: "Tidak punya akses." }, { status: 403 });
-  }
+  // Only owner and cashier may confirm payments
+  const guard = await checkRole(["owner", "cashier"]);
+  if (!guard.ok) return guard.response;
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
@@ -44,5 +44,8 @@ export async function POST(request: Request) {
       { status: 409 }
     );
   }
+
+  // Notify the customer tracking page (order:<code>); polling there is the fallback
+  await broadcastOrderUpdate(data.code as string, "paid");
   return NextResponse.json({ ok: true, code: data.code });
 }
