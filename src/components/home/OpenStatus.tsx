@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
-import { PromoBanner } from "@/components/home/PromoBanner";
 
 type Range = { open: string; close: string };
 

@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Audit Manual - Space Coffee and Matcha
 
-## Getting Started
+Uji di Chrome DevTools (Device Toolbar) dan HP asli. Centang saat lolos.
 
-First, run the development server:
+## 1. Kontras (min 4.5:1)
+- [ ] Teks ink (#1B2236) di atas cream/surface terbaca jelas
+- [ ] Teks muted (#6B7389) di atas cream: cek ukuran >= 14px (DevTools > Inspect > Contrast)
+- [ ] Tombol matcha dengan teks navy terbaca
+- [ ] Teks di section navy (krem/putih) terbaca
+- [ ] Teks pada gambar banner promo terbaca di 360px
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 2. Alt text dan label
+- [ ] Semua <Image> punya alt bermakna (dekoratif: alt="")
+- [ ] SVG dekoratif (bintang, orbit, astronot) aria-hidden atau punya title
+- [ ] Semua input punya label (checkout, pencarian menu, login admin, chatbot)
+- [ ] Tombol ikon punya aria-label (keranjang, kirim, menu)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 3. Tap target dan fokus
+- [ ] Semua tombol/link utama >= 44x44px di HP
+- [ ] Tab dengan keyboard: fokus selalu terlihat, urutan logis
+- [ ] Dialog/bottom sheet bisa ditutup dengan Esc dan tombol Tutup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 4. Scroll horizontal (tidak boleh ada)
+- [ ] 360px: Beranda, Menu, Keranjang, Checkout, Pay, Lacak, Lokasi, Tentang, FAQ, Privasi, Syarat
+- [ ] 390px: halaman yang sama
+- [ ] 768px dan 1280px: halaman yang sama
+- [ ] Admin 360px: Orders, Dashboard, Produk (tabel jadi kartu)
+- Tips: Console > document.documentElement.scrollWidth > innerWidth harus false
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 5. Loading / error / empty state
+- [ ] Menu: loading skeleton tampil saat dimuat
+- [ ] Menu: pencarian tanpa hasil menampilkan empty state
+- [ ] Keranjang kosong: "Keranjangmu masih hampa udara."
+- [ ] Checkout: pesan error ramah bila validasi gagal atau server error
+- [ ] Lacak: kode tidak ditemukan menampilkan pesan, bukan crash
+- [ ] FAQ: kosong atau gagal muat menampilkan pesan
+- [ ] Beranda: best seller kosong -> section tersembunyi
 
-## Learn More
+## 6. Keamanan dan hukum
+- [ ] Checkbox persetujuan privasi wajib, consent_at tersimpan di orders
+- [ ] Link Privasi dan Syarat di footer dan checkbox tidak 404
+- [ ] Pernyataan UU PDP tampil di footer
+- [ ] Tidak ada MIDTRANS_SERVER_KEY / SERVICE_ROLE_KEY di bundle client (cari di DevTools > Sources)
+- [ ] /admin tanpa login diarahkan ke /admin/login
+- [ ] Rate limit /api/orders: kirim berulang cepat ditolak
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 7. SEO
+- [ ] /sitemap.xml dan /robots.txt terbuka
+- [ ] Favicon tampil di tab browser
+- [ ] /opengraph-image menampilkan gambar navy
+- [ ] Judul tab per halaman sesuai (FAQ | Space Coffee and Matcha, dst.)

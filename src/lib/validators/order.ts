@@ -35,8 +35,8 @@ export const orderSchema = z.object({
     .max(200, "Catatan maksimal 200 karakter")
     .optional()
     .transform((v) => (v ? v : null)),
-  consent: z.literal(true, {
-    errorMap: () => ({ message: "Kamu perlu menyetujui kebijakan privasi" }),
+    consent: z.literal(true, {
+    error: "Kamu perlu menyetujui kebijakan privasi",
   }),
   items: z
     .array(orderItemSchema)
