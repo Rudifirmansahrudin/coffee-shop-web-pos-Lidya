@@ -34,3 +34,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# extra
+.env
+.DS_Store
+
+# extra
+.env
+.DS_Store
+
+# extra
+.env
+.DS_Store
