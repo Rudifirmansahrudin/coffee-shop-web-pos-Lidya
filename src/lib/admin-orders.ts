@@ -84,7 +84,7 @@ export function actionsFor(role: AdminRole, status: ActiveStatus): OrderActionBu
 export type AdminOrderItem = {
   id: string;
   name: string;
-  size: "REG" | "LRG" | null;
+  size: "REG" | LRG | null;
   toppings: { id: string; name: string; price: number }[];
   price: number;
   qty: number;

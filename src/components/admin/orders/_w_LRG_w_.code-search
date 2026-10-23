@@ -1,0 +1,97 @@
+# Query: (?<!["'\\w])LRG(?!["'\\w])
+# Flags: RegExp
+# ContextLines: 1
+
+22 results - 14 files
+
+src/app/api/admin/demo/route.ts:
+  107            name: p.name,
+  108:           size: useLarge ? LRG : "REG",
+  109            toppings: [],
+
+src/app/api/admin/seed-orders/route.ts:
+  73            name: p.name,
+  74:           size: useLarge ? LRG : "REG",
+  75            toppings: chosenToppings.map((t) => ({ id: t.id, name: t.name, price: t.price })),
+
+src/app/api/orders/route.ts:
+   82      name: string;
+   83:     size: "REG" | LRG;
+   84      toppings: { id: string; name: string; price: number }[];
+
+  100      }
+  101:     const size = it.size === LRG ? LRG : "REG";
+  102:     if (size === LRG && product.price_large == null) {
+  103        return NextResponse.json(
+
+  117  
+  118:     const base = size === LRG ? (product.price_large as number) : product.price;
+  119      const unitPrice = base + chosen.reduce((s, t) => s + t.price, 0);
+
+src/app/api/track/[code]/route.ts:
+  47        name: it.name as string,
+  48:       size: (it.size ?? null) as "REG" | LRG | null,
+  49        toppings: Array.isArray(it.toppings)
+
+src/components/admin/ProductsManager.tsx:
+  250                    <th className="p-3">REG</th>
+  251:                   <th className="p-3">Big Boy</th>
+  252                    <th className="p-3">Status</th>
+
+  472                <label className="block space-y-1">
+  473:                 span className="text-sm font-semibold">Harga Big Boy (Rp)</span>
+  474                  <input
+
+src/components/faq/FaqChatbot.tsx:
+  21      reply: {
+  22:       text: "Buka Menu, pilih ukuran (Regular/Big Boy) dan topping, lalu masuk Keranjang dan Checkout. Isi nama panggilan, setujui kebijakan privasi, lalu bayar. Ambil pesanan di kasir saat namamu dipanggil."
+  23        link: { href: "/menu", label: "Buka Menu" },
+
+  62      label: "Ukuran dan topping",
+  63:     keywords: ["ukuran", "reg", "lrg", "big boy", "big", "large", "topping", "oreo", "milo", "shot", "harga"],
+  64      reply: {
+  65:       text: "Mayoritas minuman tersedia ukuran Regular dan Big Boy. Topping opsional: Oreo Crumb (Rp 2.000), Extra Shot (Rp 3.000), Milo (Rp 4.000). Harga akhir dihitung ulang server saat checkout."
+
+src/components/pay/PayClient.tsx:
+   9    name: string;
+  10:   size: "REG" | LRG | null;
+  11    qty: number;
+
+src/lib/admin-orders.ts:
+  86    name: string;
+  87:   size: "REG" | LRG | null;
+  88    toppings: { id: string; name: string; price: number }[];
+
+src/lib/cart-store.tsx:
+  5  
+  6: export type CartSize = "REG" | LRG;
+  7  
+
+src/lib/order-status.ts:
+  19    name: string;
+  20:   size: "REG" | LRG | null;
+  21    toppings: string[];
+
+src/lib/size-label.ts:
+  5    REG: "Regular",
+  6:   LRG: "Big Boy",
+  7  };
+
+src/lib/validators/order.ts:
+  18    productId: z.string().uuid(),
+  19:   size: z.enum(["REG", LRG]),
+  20    toppingIds: z.array(z.string().uuid()).max(10),
+
+src/types/index.ts:
+   2  
+   3: export type ProductSize = "REG" | LRG;
+   4  
+
+  29    price: number;
+  30:   /** LRG price in rupiah, null = single size product */
+  31    price_large: number | null;
+
+supabase/schema.sql:
+  10  
+  11: -- price = REG price, price_large = LRG price (null = single size product)
+  12  create table products (

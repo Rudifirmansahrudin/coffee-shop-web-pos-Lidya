@@ -1,58 +1,65 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { requireRole, badRequest } from "@/lib/admin-guard";
-import { productUpdateSchema, stockToggleSchema } from "@/lib/validators/product";
+import { requireRole, type AdminRole } from "@/lib/admin-guard";
 
 const idSchema = z.string().uuid();
+const bodySchema = z.object({
+  action: z.enum(["preparing", "ready", "completed", "cancelled"]),
+});
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+type Action = z.infer<typeof bodySchema>["action"];
+
+// Allowed previous statuses and roles for each target status
+const FLOW: Record<Action, { from: string[]; roles: AdminRole[] }> = {
+  preparing: { from: ["paid"], roles: ["owner", "cashier", "barista"] },
+  ready: { from: ["preparing"], roles: ["owner", "cashier", "barista"] },
+  completed: { from: ["ready"], roles: ["owner", "cashier"] },
+  cancelled: { from: ["pending_payment", "paid"], roles: ["owner", "cashier"] },
+};
+
+export async function POST(req: Request, { params }: { params: { id: string } }) {
   const { role, error } = await requireRole(["owner", "cashier", "barista"]);
-  if (error) return error;
-  if (!idSchema.safeParse(params.id).success) return badRequest("ID tidak valid");
+  if (error || !role) return error;
+
+  if (!idSchema.safeParse(params.id).success) {
+    return NextResponse.json({ error: "ID pesanan tidak valid." }, { status: 400 });
+  }
 
   const json = await req.json().catch(() => null);
-  const schema = role === "owner" ? productUpdateSchema : stockToggleSchema;
-  const parsed = schema.safeParse(json);
+  const parsed = bodySchema.safeParse(json);
   if (!parsed.success) {
-    return badRequest(parsed.error.issues[0]?.message ?? "Data tidak valid");
+    return NextResponse.json({ error: "Aksi tidak dikenali." }, { status: 400 });
   }
-  if (Object.keys(parsed.data).length === 0) return badRequest("Tidak ada perubahan");
+
+  const action = parsed.data.action;
+  const rule = FLOW[action];
+  if (!rule.roles.includes(role)) {
+    return NextResponse.json(
+      { error: "Peranmu tidak punya akses untuk aksi ini." },
+      { status: 403 }
+    );
+  }
 
   const db = createSupabaseAdminClient();
-  const { error: dbError } = await db
-    .from("products")
-    .update(parsed.data)
-    .eq("id", params.id);
-
-  if (dbError) return badRequest("Gagal memperbarui produk.");
-
-  revalidatePath("/menu");
-  revalidatePath("/");
-  return NextResponse.json({ ok: true });
-}
-
-export async function DELETE(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { error } = await requireRole(["owner"]);
-  if (error) return error;
-  if (!idSchema.safeParse(params.id).success) return badRequest("ID tidak valid");
-
-  const db = createSupabaseAdminClient();
-  const { error: dbError } = await db.from("products").delete().eq("id", params.id);
+  // Conditional update: only moves the order if it is in an allowed previous status
+  const { data, error: dbError } = await db
+    .from("orders")
+    .update({ status: action })
+    .eq("id", params.id)
+    .in("status", rule.from)
+    .select("id");
 
   if (dbError) {
-    // Foreign key from order_items: product already ordered
-    return badRequest("Produk sudah pernah dipesan. Tandai Habis saja, jangan dihapus.");
+    console.error("order status update failed", dbError);
+    return NextResponse.json({ error: "Gagal memperbarui status pesanan." }, { status: 500 });
+  }
+  if (!data || data.length === 0) {
+    return NextResponse.json(
+      { error: "Status pesanan sudah berubah. Muat ulang lalu coba lagi." },
+      { status: 409 }
+    );
   }
 
-  revalidatePath("/menu");
-  revalidatePath("/");
   return NextResponse.json({ ok: true });
 }

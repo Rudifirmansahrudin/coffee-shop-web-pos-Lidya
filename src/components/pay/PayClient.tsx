@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { sizeLabel } from "@/lib/size-label";
+import DemoPaymentInfo from "./DemoPaymentInfo";
 
 export type PayItem = {
   name: string;
@@ -140,7 +142,7 @@ export default function PayClient({ code, customerName, total, items }: Props) {
               <div className="min-w-0">
                 <p className="font-medium text-ink">
                   {item.name}
-                  {item.size ? ` (${item.size})` : ""} x {item.qty}
+                  {item.size ? ` (${sizeLabel(item.size)})` : ""} x {item.qty}
                 </p>
                 {item.toppings.length > 0 && (
                   <p className="text-sm text-muted">+ {item.toppings.join(", ")}</p>
@@ -196,14 +198,14 @@ export default function PayClient({ code, customerName, total, items }: Props) {
 
       {demoOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-space-navy/40 p-0 md:items-center md:p-4"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 md:items-center md:p-4"
           onClick={() => setDemoOpen(false)}
         >
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="demo-pay-title"
-            className="w-full max-w-md rounded-t-2xl bg-surface p-5 md:rounded-2xl"
+            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-surface p-5 md:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 id="demo-pay-title" className="font-heading text-lg font-semibold text-space-navy">
@@ -232,9 +234,9 @@ export default function PayClient({ code, customerName, total, items }: Props) {
               ))}
             </div>
 
-            <div className="mt-4 flex items-center justify-between text-ink">
-              <span>Total</span>
-              <span className="font-semibold">{rupiah.format(total)}</span>
+            {/* Dummy payment details (fake QR / GoPay / virtual account) */}
+            <div className="mt-4">
+              <DemoPaymentInfo method={method} code={code} total={total} />
             </div>
 
             <button

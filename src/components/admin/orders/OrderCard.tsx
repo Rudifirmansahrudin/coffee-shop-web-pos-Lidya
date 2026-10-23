@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { sizeLabel } from "@/lib/size-label";
 import {
   actionsFor,
   formatClock,
@@ -24,7 +25,7 @@ type Props = {
 const BADGE: Record<ActiveStatus, string> = {
   pending_payment: "bg-star-gold/20 text-ink",
   paid: "bg-matcha-soft text-ink",
-  preparing: "bg-space-navy/10 text-space-navy",
+  preparing: "bg-navy-bg/10 text-space-navy",
   ready: "bg-matcha text-space-navy",
 };
 
@@ -77,7 +78,7 @@ export function OrderCard({ order, role, now, highlighted, busy, onAction }: Pro
                 <span className="font-semibold">{item.qty}×</span> {item.name}
                 {item.size ? (
                   <span className="ml-1.5 rounded-md bg-matcha-soft px-1.5 py-0.5 text-xs font-medium">
-                    {item.size}
+                    {sizeLabel(item.size)}
                   </span>
                 ) : null}
               </span>

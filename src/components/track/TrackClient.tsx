@@ -6,6 +6,7 @@ import { MessageCircle } from "lucide-react";
 import { StatusStepper } from "@/components/track/StatusStepper";
 import { ReviewForm } from "@/components/track/ReviewForm";
 import { getEstimate, type TrackData } from "@/lib/order-status";
+import { sizeLabel } from "@/lib/size-label";
 
 const formatRp = (n: number) =>
   new Intl.NumberFormat("id-ID", {
@@ -146,7 +147,7 @@ export function TrackClient({ code }: { code: string }) {
               <div>
                 <p className="font-medium text-ink">
                   {it.qty}x {it.name}
-                  {it.size ? ` (${it.size})` : ""}
+                  {it.size ? ` (${sizeLabel(it.size)})` : ""}
                 </p>
                 {it.toppings.length > 0 && (
                   <p className="text-muted">+ {it.toppings.join(", ")}</p>

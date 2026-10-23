@@ -24,7 +24,7 @@ export function CartFab() {
     >
       <ShoppingBag className="h-6 w-6" aria-hidden="true" />
       {count > 0 ? (
-        <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-space-navy px-1 text-xs font-semibold text-cream">
+        <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-navy-bg px-1 text-xs font-semibold text-cream">
           {count}
         </span>
       ) : null}

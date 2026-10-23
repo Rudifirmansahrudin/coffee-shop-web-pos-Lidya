@@ -54,6 +54,11 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
   const pillBase =
     "inline-flex min-h-[44px] shrink-0 items-center rounded-full border px-4 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy";
 
+  // Active category pill: navy in light mode, matcha with navy text in dark mode
+  const pillActive =
+    "border-transparent bg-navy-bg text-cream dark:border-matcha dark:bg-matcha dark:font-semibold dark:text-[rgb(var(--c-primary-fg))]";
+  const pillIdle = "border-line bg-surface text-ink";
+
   return (
     <>
       <div className="sticky top-0 z-30 -mx-4 border-b border-line bg-cream px-4 py-3 md:top-16">
@@ -81,11 +86,7 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
               type="button"
               aria-pressed={active === "all"}
               onClick={() => setActive("all")}
-              className={`${pillBase} ${
-                active === "all"
-                  ? "border-space-navy bg-space-navy text-cream"
-                  : "border-line bg-surface text-ink"
-              }`}
+              className={`${pillBase} ${active === "all" ? pillActive : pillIdle}`}
             >
               Semua
             </button>
@@ -95,11 +96,7 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
                 type="button"
                 aria-pressed={active === c.id}
                 onClick={() => setActive(c.id)}
-                className={`${pillBase} ${
-                  active === c.id
-                    ? "border-space-navy bg-space-navy text-cream"
-                    : "border-line bg-surface text-ink"
-                }`}
+                className={`${pillBase} ${active === c.id ? pillActive : pillIdle}`}
               >
                 {c.name}
               </button>
@@ -111,7 +108,7 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
               className={`${pillBase} ${
                 onlyAvailable
                   ? "border-matcha bg-matcha-soft text-space-navy"
-                  : "border-line bg-surface text-ink"
+                  : pillIdle
               }`}
             >
               {onlyAvailable ? "✓ " : ""}Tersedia saja
@@ -161,7 +158,7 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
       {notice && (
         <div
           role="status"
-          className="fixed bottom-36 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-space-navy px-4 py-2 text-sm font-medium text-cream shadow-lg md:bottom-24 lg:bottom-8"
+          className="fixed bottom-36 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-navy-bg px-4 py-2 text-sm font-medium text-cream shadow-lg dark:bg-matcha dark:text-[rgb(var(--c-primary-fg))] md:bottom-24 lg:bottom-8"
         >
           {notice}
         </div>

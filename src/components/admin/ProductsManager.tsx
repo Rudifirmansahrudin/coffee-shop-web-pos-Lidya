@@ -417,7 +417,7 @@ export default function ProductsManager({
       {/* Product dialog: bottom sheet on mobile, centered on md+ */}
       {form && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-space-navy/40 md:items-center"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-navy-bg/40 md:items-center"
           role="dialog"
           aria-modal="true"
           aria-label={form.id ? "Ubah produk" : "Tambah produk"}

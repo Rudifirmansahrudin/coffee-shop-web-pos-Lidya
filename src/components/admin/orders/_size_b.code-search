@@ -1,0 +1,71 @@
+# Query: \\.size\\b
+# Flags: RegExp
+# ContextLines: 1
+
+17 results - 11 files
+
+src/app/opengraph-image.tsx:
+  32      ),
+  33:     { ...size }
+  34    );
+
+src/app/(public)/pay/[code]/page.tsx:
+  55      name: i.name,
+  56:     size: i.size,
+  57      qty: i.qty,
+
+src/app/api/orders/route.ts:
+  100      }
+  101:     const size = it.size === "LRG" ? "LRG" : "REG";
+           if (size === "LRG" && product.price_large == null) {
+
+src/app/api/track/[code]/route.ts:
+  47        name: it.name as string,
+  48:       size: (it.size ?? null) as "REG" | "LRG" | null,
+  49        toppings: Array.isArray(it.toppings)
+
+src/components/admin/orders/OrderCard.tsx:
+  77                  <span className="font-semibold">{item.qty}×</span> {item.name}
+  78:                 {item.size ? (
+  79                    <span className="ml-1.5 rounded-md bg-matcha-soft px-1.5 py-0.5 text-xs font-medium">
+  80:                     {sizeLabel(item.size)}
+  81                    </span>
+
+src/components/cart/CartItemRow.tsx:
+  28            <p className="mt-0.5 text-sm text-muted">
+  29:             Ukuran {sizeLabel(item.size)}
+  30              {toppingText ? ` · + ${toppingText}` : ""}
+
+src/components/checkout/CheckoutForm.tsx:
+   53          productId: it.productId,
+   54:         size: it.size,
+   55          toppingIds: it.toppings.map((t) => t.id),
+
+  128              <p className="font-medium text-ink">
+  129:               {it.qty}x {it.name} ({sizeLabel(it.size)})
+  130              </p>
+
+src/components/pay/PayClient.tsx:
+  143                    {item.name}
+  144:                   {item.size ? ` (${sizeLabel(item.size)})` : ""} x {item.qty}
+  145                  </p>
+
+src/components/space/StarField.tsx:
+  28            viewBox="0 0 24 24"
+  29:           width={star.size}
+  30:           height={star.size}
+  31            fill="currentColor"
+
+src/components/track/TrackClient.tsx:
+  148                    {it.qty}x {it.name}
+  149:                   {it.size ? ` (${sizeLabel(it.size)})` : ""}}
+  150                  </p>
+
+src/lib/cart-store.tsx:
+  73            input.productId,
+  74:           input.size,
+  75            toppings.map((t) => t.id)
+
+  93                imageUrl: input.imageUrl,
+  94:               size: input.size,
+  95                toppings,

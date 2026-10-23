@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-export type CartSize = "REG" | "LRG";
+export type CartSize = "REG" | LRG;
 
 export interface CartTopping {
   id: string;

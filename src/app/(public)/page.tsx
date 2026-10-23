@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { AstronautHero } from "@/components/space/AstronautHero";
 import { OrbitDivider } from "@/components/space/OrbitDivider";
 import { StarField } from "@/components/space/StarField";
-import { OpenStatus } from "@/components/home/OpenStatus";
+import StatusStrip from "@/components/home/StatusStrip";
 import { PromoBanner } from "@/components/home/PromoBanner";
 
 export const revalidate = 60;
@@ -127,13 +127,13 @@ export default async function HomePage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/menu"
-              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-matcha px-6 py-3 font-semibold text-space-navy transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-matcha px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
             >
               Pesan Sekarang
             </Link>
             <Link
               href="/lokasi"
-              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-6 py-3 font-semibold text-ink transition-colors hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-6 py-3 font-semibold text-ink transition-colors hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
             >
               Lihat Lokasi
             </Link>
@@ -144,15 +144,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Info strip */}
+      {/* Info strip: status, hours, location */}
       <section aria-label="Info kedai" className="mx-auto max-w-[1200px] px-4 lg:px-6">
-        <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
-          <OpenStatus hours={content.opening_hours} />
-          <div className="flex items-center gap-2 text-sm text-muted">
-            <MapPin className="h-4 w-4" aria-hidden="true" />
-            <span>Plaza Ono Sidareja, Lantai 3</span>
-          </div>
-        </div>
+        <StatusStrip
+          open="10:00"
+          close="22:00"
+          daysLabel="Setiap hari"
+          place="Plaza Ono Sidareja"
+          detail="Lantai 3"
+        />
       </section>
 
       {/* Promo banner */}
@@ -189,7 +189,7 @@ export default async function HomePage() {
               <li key={product.id}>
                 <Link
                   href="/menu"
-                  className="block h-full overflow-hidden rounded-2xl border border-line bg-surface transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+                  className="block h-full overflow-hidden rounded-2xl border border-line bg-surface transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
                 >
                   <div className="relative aspect-square bg-matcha-soft">
                     <Image
@@ -222,18 +222,18 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Navy section: advantages */}
-      <section className="relative overflow-hidden bg-space-navy">
+      {/* Navy section: advantages (fixed navy background and white text in both themes) */}
+      <section className="relative overflow-hidden bg-[rgb(var(--c-navy-bg))]">
         <StarField />
         <div className="relative mx-auto max-w-[1200px] px-4 py-12 lg:px-6 lg:py-16">
-          <h2 className="font-heading text-2xl font-bold text-cream">Kenapa Space?</h2>
+          <h2 className="font-heading text-2xl font-bold text-white">Kenapa Space?</h2>
           <ul className="mt-6 grid gap-6 md:grid-cols-3">
             {ADVANTAGES.map(({ icon: Icon, title, text }) => (
               <li key={title} className="flex items-start gap-4 md:block">
                 <Icon className="h-7 w-7 shrink-0 text-star-gold md:mb-3" aria-hidden="true" />
                 <div>
-                  <h3 className="font-heading text-lg font-semibold text-cream">{title}</h3>
-                  <p className="mt-1 text-sm text-cream/80">{text}</p>
+                  <h3 className="font-heading text-lg font-semibold text-white">{title}</h3>
+                  <p className="mt-1 text-sm text-white/80">{text}</p>
                 </div>
               </li>
             ))}
@@ -256,7 +256,7 @@ export default async function HomePage() {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row lg:mt-0">
             <Link
               href="/lokasi"
-              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-matcha px-6 py-3 font-semibold text-space-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-matcha px-5 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
             >
               Petunjuk Lokasi
             </Link>
@@ -265,7 +265,7 @@ export default async function HomePage() {
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-5 py-3 font-semibold text-ink hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-5 py-3 font-semibold text-ink hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
               >
                 <Camera className="h-4 w-4" aria-hidden="true" />
                 Instagram
@@ -276,7 +276,7 @@ export default async function HomePage() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-5 py-3 font-semibold text-ink hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-5 py-3 font-semibold text-ink hover:bg-matcha-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-matcha"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 WhatsApp

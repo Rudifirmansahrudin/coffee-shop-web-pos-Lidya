@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Minus, Plus, X } from "lucide-react";
 import { formatRupiah } from "@/lib/format";
+import { sizeLabel } from "@/lib/size-label";
 import { useCartStore, type CartSize } from "@/lib/cart-store";
 import type { MenuProduct, MenuTopping } from "./types";
 
@@ -91,7 +92,7 @@ export function AddToCartDialog({ product, toppings, onClose, onAdded }: AddToCa
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center md:items-center md:p-4">
-      <div className="absolute inset-0 bg-space-navy/50" onClick={onClose} aria-hidden="true" />
+      <div className="absolute inset-0 bg-navy-bg/50" onClick={onClose} aria-hidden="true" />
 
       <div
         ref={panelRef}
@@ -136,7 +137,7 @@ export function AddToCartDialog({ product, toppings, onClose, onAdded }: AddToCa
                         className="peer sr-only"
                       />
                       <span className="flex min-h-[56px] flex-col justify-center rounded-xl border-2 border-line px-3 py-2 peer-checked:border-matcha peer-checked:bg-matcha-soft peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-space-navy">
-                        <span className="text-sm font-semibold text-ink">{s}</span>
+                        <span className="text-sm font-semibold text-ink">{sizeLabel(s)}</span>
                         <span className="text-sm text-muted">{formatRupiah(price)}</span>
                       </span>
                     </label>
@@ -145,7 +146,7 @@ export function AddToCartDialog({ product, toppings, onClose, onAdded }: AddToCa
               </div>
             ) : (
               <p className="rounded-xl bg-cream px-3 py-3 text-sm text-ink">
-                Hanya tersedia ukuran REG ({formatRupiah(product.price)})
+                Hanya tersedia ukuran {sizeLabel("REG")} ({formatRupiah(product.price)})
               </p>
             )}
           </fieldset>

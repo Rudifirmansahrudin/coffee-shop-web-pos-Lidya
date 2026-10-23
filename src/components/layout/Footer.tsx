@@ -8,30 +8,34 @@ const LEGAL_LINKS = [
   { href: "/syarat", label: "Syarat & Ketentuan" },
 ];
 
+// Small spaced uppercase heading, same style as the nav
+const HEADING = "font-heading text-xs font-semibold uppercase tracking-[0.28em]";
+
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-space-navy text-cream">
+    // Fixed navy background and white text in both themes (readable on light and dark pages)
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[rgb(var(--c-navy-bg))] text-white">
       <StarField count={5} />
       <div className="relative mx-auto max-w-[1200px] px-4 pb-24 pt-10 md:px-6 md:pb-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <p className="font-heading text-xl font-bold">Space Coffee and Matcha</p>
-            <p className="mt-2 text-cream/80">Coffee That Takes You Further</p>
-            <p className="mt-1 text-sm text-cream/80">
+            <p className="mt-2 text-white/80">Coffee That Takes You Further</p>
+            <p className="mt-1 text-sm text-white/80">
               Setiap tegukan, satu langkah lebih dekat ke bintang
             </p>
           </div>
 
           {/* Navigation (desktop only, mobile has bottom nav) */}
           <div className="hidden md:block">
-            <p className="font-heading font-semibold">Jelajahi</p>
+            <p className={HEADING}>Jelajahi</p>
             <ul className="mt-2">
               {DESKTOP_LINKS.map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="flex min-h-[44px] items-center text-cream/80 hover:text-cream">
+                  <Link href={href} className="flex min-h-[44px] items-center text-white/80 hover:text-white">
                     {label}
                   </Link>
                 </li>
@@ -41,20 +45,20 @@ export function Footer() {
 
           {/* Location (desktop only) */}
           <div className="hidden md:block">
-            <p className="font-heading font-semibold">Kunjungi Kami</p>
-            <p className="mt-2 text-cream/80">Plaza Ono Sidareja, Lantai 3</p>
-            <Link href="/lokasi" className="mt-1 flex min-h-[44px] items-center text-cream underline">
+            <p className={HEADING}>Kunjungi Kami</p>
+            <p className="mt-2 text-white/80">Plaza Ono Sidareja, Lantai 3</p>
+            <Link href="/lokasi" className="mt-1 flex min-h-[44px] items-center text-white underline">
               Lihat jam buka & peta
             </Link>
           </div>
 
           {/* Legal */}
           <div>
-            <p className="hidden font-heading font-semibold md:block">Informasi</p>
+            <p className={`hidden md:block ${HEADING}`}>Informasi</p>
             <ul className="flex flex-wrap gap-x-5 md:mt-2 md:block">
               {LEGAL_LINKS.map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="flex min-h-[44px] items-center text-cream/80 hover:text-cream">
+                  <Link href={href} className="flex min-h-[44px] items-center text-white/80 hover:text-white">
                     {label}
                   </Link>
                 </li>
@@ -63,13 +67,13 @@ export function Footer() {
           </div>
         </div>
 
-        <OrbitDivider className="my-6 text-cream/20" />
+        <OrbitDivider className="my-6 text-white/20" />
 
-        <p className="text-sm text-cream/80">
+        <p className="text-sm text-white/80">
           Kami memproses data pribadi sesuai UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi
           (UU PDP). Seluruh data pada situs ini adalah data demo/fiktif untuk tugas kuliah.
         </p>
-        <p className="mt-2 text-sm text-cream/80">
+        <p className="mt-2 text-sm text-white/80">
           &copy; {year} Space Coffee and Matcha. Plaza Ono Sidareja, Lantai 3.
         </p>
       </div>

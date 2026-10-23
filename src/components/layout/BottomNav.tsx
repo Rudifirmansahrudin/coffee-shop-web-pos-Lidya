@@ -11,7 +11,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navigasi utama"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="keep-dark nav-surface fixed inset-x-0 bottom-0 z-50 border-t pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <ul className="mx-auto grid max-w-md grid-cols-4">
         {MAIN_LINKS.map(({ href, label, icon: Icon }) => {
@@ -21,19 +21,9 @@ export function BottomNav() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex min-h-[56px] flex-col items-center justify-center gap-0.5 text-xs font-medium",
-                  active ? "text-space-navy" : "text-muted"
-                )}
+                className={cn("bottom-link min-h-[56px]", active ? "text-ink" : "text-ink/70")}
               >
-                <span
-                  className={cn(
-                    "flex h-7 w-12 items-center justify-center rounded-full",
-                    active && "bg-matcha-soft"
-                  )}
-                >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
+                <Icon className="h-5 w-5" aria-hidden="true" />
                 {label}
               </Link>
             </li>

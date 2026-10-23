@@ -56,7 +56,7 @@ export default async function LokasiPage() {
             <div className="mt-4 flex items-center gap-2">
               <span
                 className={`inline-flex min-h-8 items-center rounded-full px-3 text-sm font-semibold ${
-                  status.isOpen ? "bg-matcha-soft text-space-navy" : "bg-line text-ink"
+                  status.isOpen ? "text-primary-foreground" : "bg-line text-ink"
                 }`}
               >
                 {status.isOpen ? "Buka" : "Tutup"}
@@ -105,20 +105,30 @@ export default async function LokasiPage() {
               Jam Buka
             </h2>
             <ul className="divide-y divide-line">
-              {hours.map((d, i) => (
-                <li
-                  key={d.label}
-                  className={`flex min-h-11 items-center justify-between text-sm ${
-                    i === status.todayIndex ? "font-semibold text-space-navy" : "text-ink"
-                  }`}
-                >
-                  <span>
-                    {d.label}
-                    {i === status.todayIndex && <span className="ml-2 text-xs text-muted">(hari ini)</span>}
-                  </span>
-                  <span>{d.open && d.close ? `${d.open} - ${d.close}` : "Tutup"}</span>
-                </li>
-              ))}
+              {hours.map((d, i) => {
+                const isToday = i === status.todayIndex;
+                return (
+                  <li
+                    key={d.label}
+                    aria-current={isToday ? "date" : undefined}
+                    className={`flex min-h-11 items-center justify-between text-sm ${
+                      isToday
+                        ? "-mx-2 rounded-xl border-l-4 border-matcha bg-matcha-soft px-3 font-semibold text-space-navy"
+                        : "text-ink"
+                    }`}
+                  >
+                    <span className="flex items-center">
+                      {d.label}
+                      {isToday && (
+                        <span className="ml-2 rounded-full bg-matcha px-2 py-0.5 text-xs font-semibold text-[rgb(var(--c-primary-fg))]">
+                          Hari ini
+                        </span>
+                      )}
+                    </span>
+                    <span>{d.open && d.close ? `${d.open} - ${d.close}` : "Tutup"}</span>
+                  </li>
+                );
+              })}
             </ul>
             <p className="mt-3 text-xs text-muted">Zona waktu WIB (Asia/Jakarta).</p>
           </div>

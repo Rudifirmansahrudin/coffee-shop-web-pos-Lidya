@@ -17,7 +17,7 @@ export const STEPS: { key: OrderStatus; label: string }[] = [
 
 export type TrackItem = {
   name: string;
-  size: "REG" | "LRG" | null;
+  size: "REG" | LRG | null;
   toppings: string[];
   qty: number;
   price: number;

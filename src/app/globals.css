@@ -2,89 +2,201 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
 @layer base {
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.141 0.005 285.823);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.141 0.005 285.823);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.141 0.005 285.823);
-    --primary: oklch(0.21 0.006 285.885);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --muted: oklch(0.967 0.001 286.375);
-    --muted-foreground: oklch(0.552 0.016 285.938);
-    --accent: oklch(0.967 0.001 286.375);
-    --accent-foreground: oklch(0.21 0.006 285.885);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.92 0.004 286.32);
-    --input: oklch(0.92 0.004 286.32);
-    --ring: oklch(0.705 0.015 286.067);
-    --chart-1: oklch(0.871 0.006 286.286);
-    --chart-2: oklch(0.552 0.016 285.938);
-    --chart-3: oklch(0.442 0.017 285.786);
-    --chart-4: oklch(0.37 0.013 285.805);
-    --chart-5: oklch(0.274 0.006 286.033);
+    /* Light theme: SPEC tokens as RGB triplets */
+    --c-navy: 15 27 61;
+    --c-navy-bg: 15 27 61;
+    --c-matcha: 110 155 63;
+    --c-matcha-soft: 234 242 223;
+    --c-cream: 250 247 240;
+    --c-surface: 255 255 255;
+    --c-popover: 255 255 255;
+    --c-ink: 27 34 54;
+    --c-muted: 107 115 137;
+    --c-line: 232 227 214;
+    --c-danger: 200 71 61;
+    --c-eyebrow: 74 110 30; /* darker green so small labels keep 4.5:1 on cream */
+    --c-primary-fg: 15 27 61;
+    --c-danger-fg: 255 255 255;
+    --a-surface: 1;
+    --a-line: 1;
     --radius: 0.5rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.141 0.005 285.823);
-    --sidebar-primary: oklch(0.21 0.006 285.885);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.967 0.001 286.375);
-    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-    --sidebar-border: oklch(0.92 0.004 286.32);
-    --sidebar-ring: oklch(0.705 0.015 286.067);
+    color-scheme: light;
   }
-  .dark {
-    --background: oklch(0.141 0.005 285.823);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.21 0.006 285.885);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.21 0.006 285.885);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.92 0.004 286.32);
-    --primary-foreground: oklch(0.21 0.006 285.885);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.274 0.006 286.033);
-    --muted-foreground: oklch(0.705 0.015 286.067);
-    --accent: oklch(0.274 0.006 286.033);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.552 0.016 285.938);
-    --chart-1: oklch(0.871 0.006 286.286);
-    --chart-2: oklch(0.552 0.016 285.938);
-    --chart-3: oklch(0.442 0.017 285.786);
-    --chart-4: oklch(0.37 0.013 285.805);
-    --chart-5: oklch(0.274 0.006 286.033);
-    --sidebar: oklch(0.21 0.006 285.885);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.274 0.006 286.033);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.552 0.016 285.938);
+
+  /* Dark theme (cosmos). .keep-dark re-applies it inside light-surface pages (nav, footer). */
+  .dark,
+  .dark body[data-surface="light"] .keep-dark {
+    --c-navy: 255 255 255; /* used as TEXT, so it becomes white */
+    --c-navy-bg: 15 27 61; /* deep blue for backgrounds */
+    --c-matcha: 156 203 99; /* #9CCB63 */
+    --c-matcha-soft: 30 51 38;
+    --c-cream: 5 7 15; /* page background = void */
+    --c-surface: 255 255 255; /* glass: white at low alpha */
+    --c-popover: 14 21 46; /* solid, for dialogs and menus */
+    --c-ink: 226 230 240;
+    --c-muted: 152 161 186;
+    --c-line: 255 255 255;
+    --c-danger: 232 112 102;
+    --c-eyebrow: 156 203 99;
+    --c-primary-fg: 15 27 61;
+    --c-danger-fg: 255 255 255;
+    --a-surface: 0.06;
+    --a-line: 0.14;
+    color-scheme: dark;
+  }
+
+  /* Light surface inside dark mode (used by /admin) */
+  .dark body[data-surface="light"] {
+    --c-navy: 15 27 61;
+    --c-navy-bg: 15 27 61;
+    --c-matcha: 110 155 63;
+    --c-matcha-soft: 234 242 223;
+    --c-cream: 250 247 240;
+    --c-surface: 255 255 255;
+    --c-popover: 255 255 255;
+    --c-ink: 27 34 54;
+    --c-muted: 107 115 137;
+    --c-line: 232 227 214;
+    --c-danger: 200 71 61;
+    --c-eyebrow: 74 110 30;
+    --c-primary-fg: 15 27 61;
+    --c-danger-fg: 255 255 255;
+    --a-surface: 1;
+    --a-line: 1;
+    color-scheme: light;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /*
+   * Hardcoded bg-white in components becomes glass in dark mode (readable with light text).
+   * On light surfaces the variables restore solid white, so nothing changes there.
+   * Kept in the base layer so it is never purged.
+   */
+  .dark .bg-white {
+    background-color: rgb(var(--c-surface) / var(--a-surface));
+  }
+}
+
+@layer components {
+  /* Single cosmos background for all brand pages (dark mode only) */
+  .cosmos {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 40% at 30% 28%, rgba(120, 105, 95, 0.22), transparent 70%),
+      radial-gradient(50% 35% at 78% 52%, rgba(95, 85, 100, 0.2), transparent 70%),
+      radial-gradient(70% 50% at 50% 100%, rgba(30, 45, 95, 0.35), transparent 70%),
+      #05070f;
+  }
+  .cosmos::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.75;
+    background-size: 520px 520px;
+    background-image:
+      radial-gradient(1.2px 1.2px at 12% 18%, #fff, transparent),
+      radial-gradient(1px 1px at 33% 72%, #fff, transparent),
+      radial-gradient(1.4px 1.4px at 58% 12%, #fff, transparent),
+      radial-gradient(1px 1px at 81% 36%, #fff, transparent),
+      radial-gradient(1px 1px at 92% 82%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 70% 62%, #fff, transparent),
+      radial-gradient(1px 1px at 22% 44%, #fff, transparent),
+      radial-gradient(1px 1px at 45% 90%, #fff, transparent),
+      radial-gradient(1px 1px at 6% 86%, #fff, transparent),
+      radial-gradient(1.3px 1.3px at 96% 8%, #fff, transparent);
+  }
+  .dark .cosmos {
+    display: block;
+  }
+  .dark body[data-surface="light"] .cosmos {
+    display: none;
+  }
+
+  /* Glass card: semi-transparent with a thin line (solid white in light mode) */
+  .glass {
+    @apply rounded-card border border-line bg-surface backdrop-blur-sm;
+  }
+
+  /* Small green label above page titles */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-heading text-xs font-medium uppercase tracking-[0.32em];
+    color: rgb(var(--c-eyebrow));
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2px;
+    height: 1rem;
+    background: currentColor;
+  }
+
+  /* Nav bar surface (top and bottom) */
+  .nav-surface {
+    @apply border-line bg-cream/95 backdrop-blur-md;
+  }
+
+  /* Desktop nav link: spaced uppercase + vertical line, green and glowing when active */
+  .nav-link {
+    @apply relative flex min-h-[44px] items-center pl-6 pr-4 font-heading text-[13px] font-medium uppercase tracking-[0.3em] text-ink/75 transition-colors hover:text-ink;
+  }
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    height: 20px;
+    width: 2px;
+    transform: translateY(-50%);
+    background: rgb(var(--c-ink) / 0.5);
+    transition: all 0.25s;
+  }
+  .nav-link[aria-current="page"] {
+    @apply text-ink;
+  }
+  .nav-link[aria-current="page"]::before {
+    height: 28px;
+    background: rgb(var(--c-matcha));
+  }
+  .dark .nav-link[aria-current="page"]::before {
+    box-shadow: 0 0 12px rgb(var(--c-matcha));
+  }
+
+  /* Mobile bottom nav item: icon + tiny uppercase label, green line on top when active */
+  .bottom-link {
+    @apply relative flex min-h-[44px] flex-col items-center justify-center gap-0.5 font-heading text-[10px] font-medium uppercase tracking-[0.16em] text-muted;
+  }
+  .bottom-link[aria-current="page"] {
+    @apply text-ink;
+  }
+  .bottom-link[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 30%;
+    right: 30%;
+    height: 2px;
+    background: rgb(var(--c-matcha));
+  }
+  .dark .bottom-link[aria-current="page"]::before {
+    box-shadow: 0 0 10px rgb(var(--c-matcha));
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

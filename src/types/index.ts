@@ -1,6 +1,6 @@
 // Types mirror supabase/schema.sql
 
-export type ProductSize = "REG" | "LRG";
+export type ProductSize = "REG" | LRG;
 
 export type OrderStatus =
   | "pending_payment"

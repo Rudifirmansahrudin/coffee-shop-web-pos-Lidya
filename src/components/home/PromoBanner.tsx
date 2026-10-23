@@ -37,7 +37,7 @@ export function PromoBanner({ imageUrl, imageAlt, badge, headline, text, code }:
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-space-navy p-5 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+    <div className="relative overflow-hidden rounded-2xl bg-navy-bg p-5 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
       <StarField count={4} />
       <div className="relative">
         {badge ? (

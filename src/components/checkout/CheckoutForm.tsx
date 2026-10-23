@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Loader2 } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
+import { sizeLabel } from "@/lib/size-label";
 import { orderSchema } from "@/lib/validators/order";
 
 const rupiah = (n: number) =>
@@ -126,7 +127,7 @@ export default function CheckoutForm() {
         <li key={it.key} className="flex justify-between gap-3 py-3 text-sm">
           <div className="min-w-0">
             <p className="font-medium text-ink">
-              {it.qty}x {it.name} ({it.size})
+              {it.qty}x {it.name} ({sizeLabel(it.size)})
             </p>
             {it.toppings.length > 0 && (
               <p className="text-muted">+ {it.toppings.map((t) => t.name).join(", ")}</p>

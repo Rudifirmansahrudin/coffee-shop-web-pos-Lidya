@@ -2,6 +2,7 @@
 
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/lib/cart-store";
+import { sizeLabel } from "@/lib/size-label";
 import { formatPrice } from "./cart-utils";
 
 interface CartItemRowProps {
@@ -26,7 +27,7 @@ export function CartItemRow({ item, showNote = false }: CartItemRowProps) {
         <div className="min-w-0">
           <p className="font-heading text-base font-semibold text-ink">{item.name}</p>
           <p className="mt-0.5 text-sm text-muted">
-            Ukuran {item.size}
+            Ukuran {sizeLabel(item.size)}
             {toppingText ? ` · + ${toppingText}` : ""}
           </p>
           <p className="mt-0.5 text-sm text-muted">{formatPrice(item.unitPrice)} / item</p>

@@ -29,8 +29,13 @@ export function StarField({ count = 5, className }: Props) {
           width={star.size}
           height={star.size}
           fill="currentColor"
-          className="absolute text-star-gold"
-          style={{ top: star.top, left: star.left }}
+          // Twinkle only in dark mode and when motion is allowed
+          className="absolute text-star-gold motion-safe:dark:animate-twinkle"
+          style={{
+            top: star.top,
+            left: star.left,
+            animationDelay: `${-(index * 0.9).toFixed(1)}s`,
+          }}
         >
           <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2z" />
         </svg>

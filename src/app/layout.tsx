@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { CosmosBackground } from "@/components/space/CosmosBackground";
+import { SurfaceSetter } from "@/components/layout/SurfaceSetter";
 import "./globals.css";
 
 const sora = Sora({
@@ -21,8 +24,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${sora.variable} ${jakarta.variable}`}>
-      <body className="bg-cream font-sans text-base text-ink antialiased">{children}</body>
+    <html lang="id" suppressHydrationWarning className={`${sora.variable} ${jakarta.variable}`}>
+      <body
+        suppressHydrationWarning
+        className="bg-cream font-sans text-base text-ink antialiased"
+      >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+          <SurfaceSetter />
+          <CosmosBackground />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -68,7 +68,7 @@ export function CartBar() {
             tabIndex={-1}
             aria-label="Tutup keranjang"
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-space-navy/40"
+            className="absolute inset-0 bg-navy-bg/40"
           />
           <div className="absolute inset-x-0 bottom-0 flex max-h-[85vh] flex-col rounded-t-2xl bg-surface md:inset-x-auto md:left-1/2 md:w-[32rem] md:-translate-x-1/2">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">

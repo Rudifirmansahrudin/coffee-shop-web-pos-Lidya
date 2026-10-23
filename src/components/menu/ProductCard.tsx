@@ -33,12 +33,13 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
               Tersedia
             </span>
           ) : (
-            <span className="rounded-full border border-danger bg-surface px-2 py-0.5 text-xs font-medium text-danger">
+            <span className="rounded-full border border-danger px-2 py-0.5 text-xs font-medium text-danger">
               Habis
             </span>
           )}
           {product.is_best_seller && (
-            <span className="rounded-full bg-star-gold px-2 py-0.5 text-xs font-semibold text-space-navy">
+            // Fixed dark text: space-navy turns white in dark mode, which is unreadable on gold
+            <span className="rounded-full bg-star-gold px-2 py-0.5 text-xs font-semibold text-primary-foreground">
               Best Seller
             </span>
           )}
@@ -55,6 +56,7 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
 
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2">
           <p className="text-sm font-semibold text-ink">{formatRupiah(product.price)}</p>
+          {/* text-primary-foreground = navy in both themes, so contrast on matcha stays high */}
           <button
             type="button"
             disabled={!product.is_available}
@@ -64,7 +66,7 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
                 ? `Tambah ${product.name}`
                 : `${product.name} sedang habis`
             }
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-xl bg-matcha px-3 text-sm font-semibold text-space-navy transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy disabled:cursor-not-allowed disabled:bg-line disabled:text-muted"
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-xl bg-matcha px-3 text-sm font-semibold text-primary-foreground transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:bg-line disabled:text-muted"
           >
             {product.is_available ? (
               <>

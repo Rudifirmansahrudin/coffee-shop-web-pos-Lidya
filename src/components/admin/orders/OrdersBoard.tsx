@@ -22,6 +22,8 @@ type Props = {
 
 type Message = { type: "error" | "ok"; text: string } | null;
 type Filter = ActiveStatus | "all";
+// Some routes reply with `error`, others (admin-guard) with `message`
+type ApiReply = { error?: string; message?: string; created?: string[] };
 
 export function OrdersBoard({ initialOrders, role, initialError }: Props) {
   const [orders, setOrders] = useState<AdminOrder[]>(initialOrders);
@@ -141,9 +143,12 @@ export function OrdersBoard({ initialOrders, role, initialError }: Props) {
               body: JSON.stringify({ action }),
             });
 
-      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      const json = (await res.json().catch(() => ({}))) as ApiReply;
       if (!res.ok) {
-        setMessage({ type: "error", text: json.error ?? "Aksi gagal. Coba lagi." });
+        setMessage({
+          type: "error",
+          text: json.error ?? json.message ?? `Aksi gagal (kode ${res.status}). Coba lagi.`,
+        });
       }
       await refetch();
     } catch {
@@ -158,9 +163,12 @@ export function OrdersBoard({ initialOrders, role, initialError }: Props) {
     setMessage(null);
     try {
       const res = await fetch("/api/admin/seed-orders", { method: "POST" });
-      const json = (await res.json().catch(() => ({}))) as { error?: string; created?: string[] };
+      const json = (await res.json().catch(() => ({}))) as ApiReply;
       if (!res.ok) {
-        setMessage({ type: "error", text: json.error ?? "Gagal membuat order dummy." });
+        setMessage({
+          type: "error",
+          text: json.error ?? json.message ?? "Gagal membuat order dummy.",
+        });
       } else {
         setMessage({ type: "ok", text: `${json.created?.length ?? 0} order dummy dibuat.` });
       }

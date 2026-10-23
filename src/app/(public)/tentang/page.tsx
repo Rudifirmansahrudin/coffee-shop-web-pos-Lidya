@@ -96,7 +96,7 @@ export default async function TentangPage() {
           {team.map((t) => (
             <div key={t.name} className="rounded-2xl border border-line bg-surface p-5 text-center">
               <div
-                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-space-navy font-heading text-xl font-bold text-cream"
+                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-navy-bg font-heading text-xl font-bold text-cream"
                 aria-hidden="true"
               >
                 {t.name.charAt(0)}
