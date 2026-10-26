@@ -7,8 +7,9 @@ const MATCHA_SOFT = "#EAF2DF";
 const GOLD = "#E0A526";
 const WHITE = "#FFFFFF";
 
-type Props = { className?: string };
+type Props = { className?: string; withOrnaments?: boolean };
 
+// Simple flat SVG astronaut, used for empty states (the home hero uses HeroAstronaut)
 export function AstronautHero({ className }: Props) {
   return (
     <svg

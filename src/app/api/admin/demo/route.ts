@@ -105,7 +105,7 @@ export async function POST(req: Request) {
         items.push({
           product_id: p.id,
           name: p.name,
-          size: useLarge ? LRG : "REG",
+          size: useLarge ? "LRG" : "REG",
           toppings: [],
           price,
           qty,

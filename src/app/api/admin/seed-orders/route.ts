@@ -71,7 +71,7 @@ export async function POST() {
         return {
           product_id: p.id,
           name: p.name,
-          size: useLarge ? LRG : "REG",
+          size: useLarge ? "LRG" : "REG",
           toppings: chosenToppings.map((t) => ({ id: t.id, name: t.name, price: t.price })),
           price: unitPrice,
           qty: 1 + Math.floor(Math.random() * 2),

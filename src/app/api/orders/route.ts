@@ -80,7 +80,7 @@ export async function POST(req: Request) {
   const itemRows: {
     product_id: string;
     name: string;
-    size: "REG" | LRG;
+    size: "REG" | "LRG";
     toppings: { id: string; name: string; price: number }[];
     price: number;
     qty: number;
@@ -115,7 +115,7 @@ export async function POST(req: Request) {
       chosen.push({ id: t.id, name: t.name, price: t.price });
     }
 
-    const base = size === LRG ? (product.price_large as number) : product.price;
+    const base = size === "LRG" ? (product.price_large as number) : product.price;
     const unitPrice = base + chosen.reduce((s, t) => s + t.price, 0);
     total += unitPrice * it.qty;
 

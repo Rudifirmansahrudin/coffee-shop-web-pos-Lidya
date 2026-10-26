@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Camera, Coffee, MapPin, MessageCircle, Smartphone, Wallet } from "lucide-react";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { AstronautHero } from "@/components/space/AstronautHero";
+import { HeroAstronaut } from "@/components/space/HeroAstronaut";
 import { OrbitDivider } from "@/components/space/OrbitDivider";
+import { Ornament } from "@/components/space/Ornament";
 import { StarField } from "@/components/space/StarField";
 import StatusStrip from "@/components/home/StatusStrip";
 import { PromoBanner } from "@/components/home/PromoBanner";
@@ -139,9 +140,8 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="mx-auto w-full max-w-[260px] lg:max-w-[420px]">
-          <AstronautHero />
-        </div>
+        {/* Astronaut + floating ornaments (planet, comet, rocket) live inside HeroAstronaut */}
+        <HeroAstronaut />
       </section>
 
       {/* Info strip: status, hours, location */}
@@ -225,6 +225,12 @@ export default async function HomePage() {
       {/* Navy section: advantages (fixed navy background and white text in both themes) */}
       <section className="relative overflow-hidden bg-[rgb(var(--c-navy-bg))]">
         <StarField />
+        {/* Ornament: UFO, md and up only */}
+        <Ornament
+          name="ufo-dome"
+          width={140}
+          className="hidden md:block md:-bottom-4 md:right-6"
+        />
         <div className="relative mx-auto max-w-[1200px] px-4 py-12 lg:px-6 lg:py-16">
           <h2 className="font-heading text-2xl font-bold text-white">Kenapa Space?</h2>
           <ul className="mt-6 grid gap-6 md:grid-cols-3">

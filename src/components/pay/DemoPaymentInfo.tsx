@@ -71,17 +71,24 @@ function FakeQr({ code }: { code: string }) {
   }, [code]);
 
   return (
-    <svg
-      viewBox={`-2 -2 ${SIZE + 4} ${SIZE + 4}`}
-      className="mx-auto h-48 w-48 rounded-xl bg-white"
-      role="img"
-      aria-label="Contoh kode QRIS untuk demo, tidak dapat dipindai"
-      shapeRendering="crispEdges"
+    // Inline white background on purpose: a QR must stay white-on-dark in both themes
+    <div
+      className="mx-auto w-fit rounded-xl p-3"
+      style={{ backgroundColor: "#FFFFFF" }}
     >
-      {cells.map((c) => (
-        <rect key={`${c.x}-${c.y}`} x={c.x} y={c.y} width="1" height="1" fill="#0F1B3D" />
-      ))}
-    </svg>
+      <svg
+        viewBox={`-2 -2 ${SIZE + 4} ${SIZE + 4}`}
+        className="h-44 w-44"
+        role="img"
+        aria-label="Contoh kode QRIS untuk demo, tidak dapat dipindai"
+        shapeRendering="crispEdges"
+      >
+        <rect x="-2" y="-2" width={SIZE + 4} height={SIZE + 4} fill="#FFFFFF" />
+        {cells.map((c) => (
+          <rect key={`${c.x}-${c.y}`} x={c.x} y={c.y} width="1" height="1" fill="#0F1B3D" />
+        ))}
+      </svg>
+    </div>
   );
 }
 

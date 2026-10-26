@@ -197,15 +197,17 @@ export default function PayClient({ code, customerName, total, items }: Props) {
       )}
 
       {demoOpen && (
+        // Full-screen solid-ish backdrop above nav and footer
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-0 md:items-center md:p-4"
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/70 p-0 backdrop-blur-sm md:items-center md:p-4"
           onClick={() => setDemoOpen(false)}
         >
+          {/* Opaque panel: hard-coded solid colors so it never shows the page behind it */}
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="demo-pay-title"
-            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-surface p-5 md:rounded-2xl"
+            className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl border border-line bg-[#FFFFFF] p-5 shadow-2xl dark:bg-[#141B33] md:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 id="demo-pay-title" className="font-heading text-lg font-semibold text-space-navy">

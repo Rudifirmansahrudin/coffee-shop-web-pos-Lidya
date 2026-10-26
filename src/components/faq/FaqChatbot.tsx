@@ -60,7 +60,7 @@ const RULES: Rule[] = [
   {
     id: "size",
     label: "Ukuran dan topping",
-    keywords: ["ukuran", "reg", LRG, "large", "topping", "oreo", "milo", "shot", "harga"],
+    keywords: ["ukuran", "reg", "lrg", "large", "topping", "oreo", "milo", "shot", "harga"],
     reply: {
       text: "Mayoritas minuman tersedia ukuran REG dan LRG. Topping opsional: Oreo Crumb (Rp 2.000), Extra Shot (Rp 3.000), Milo (Rp 4.000). Harga akhir dihitung ulang server saat checkout.",
     },

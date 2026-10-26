@@ -33,7 +33,7 @@
     --c-matcha: 156 203 99; /* #9CCB63 */
     --c-matcha-soft: 30 51 38;
     --c-cream: 5 7 15; /* page background = void */
-    --c-surface: 255 255 255; /* glass: white at low alpha */
+    --c-surface: 20 29 58; /* near-solid navy so background stars never show through text */
     --c-popover: 14 21 46; /* solid, for dialogs and menus */
     --c-ink: 226 230 240;
     --c-muted: 152 161 186;
@@ -42,7 +42,7 @@
     --c-eyebrow: 156 203 99;
     --c-primary-fg: 15 27 61;
     --c-danger-fg: 255 255 255;
-    --a-surface: 0.06;
+    --a-surface: 0.92;
     --a-line: 0.14;
     color-scheme: dark;
   }
@@ -78,7 +78,7 @@
   }
 
   /*
-   * Hardcoded bg-white in components becomes glass in dark mode (readable with light text).
+   * Hardcoded bg-white in components becomes near-solid navy in dark mode (readable with light text).
    * On light surfaces the variables restore solid white, so nothing changes there.
    * Kept in the base layer so it is never purged.
    */
@@ -119,6 +119,23 @@
       radial-gradient(1px 1px at 6% 86%, #fff, transparent),
       radial-gradient(1.3px 1.3px at 96% 8%, #fff, transparent);
   }
+  /* Bigger twinkling stars: solid core + soft glow. Own tile size so they never line up with the static stars. */
+  .cosmos::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: 560px 560px;
+    background-image:
+      radial-gradient(5px 5px at 16% 24%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(4px 4px at 44% 9%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(5px 5px at 74% 38%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(4px 4px at 28% 66%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(5px 5px at 90% 74%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(4px 4px at 58% 88%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(6px 6px at 84% 12%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%),
+      radial-gradient(4px 4px at 8% 90%, #fff 0 28%, rgba(255, 255, 255, 0.35) 55%, transparent 100%);
+    animation: star-twinkle 4s ease-in-out infinite;
+  }
   .dark .cosmos {
     display: block;
   }
@@ -126,7 +143,7 @@
     display: none;
   }
 
-  /* Glass card: semi-transparent with a thin line (solid white in light mode) */
+  /* Card: near-solid navy in dark mode with a thin line (solid white in light mode) */
   .glass {
     @apply rounded-card border border-line bg-surface backdrop-blur-sm;
   }
@@ -198,5 +215,47 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* Twinkling stars (dark mode only, because .cosmos is only shown there) */
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Ornament floating motion (dark mode only, respects reduced motion) */
+@keyframes orn-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(calc(var(--r, 0deg) + 2deg));
+  }
+}
+.dark .orn-float {
+  animation: orn-float 7s ease-in-out infinite;
+}
+.dark .orn-float.orn-s2 {
+  animation-duration: 9s;
+  animation-delay: -3s;
+}
+.dark .orn-float.orn-s3 {
+  animation-duration: 11s;
+  animation-delay: -5s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orn-float {
+    animation: none !important;
+  }
+  .cosmos::after {
+    animation: none;
+    opacity: 0.55;
   }
 }

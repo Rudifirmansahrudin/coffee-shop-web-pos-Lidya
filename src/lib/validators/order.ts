@@ -16,7 +16,7 @@ const phoneSchema = z
 
 export const orderItemSchema = z.object({
   productId: z.string().uuid(),
-  size: z.enum(["REG", LRG]),
+  size: z.enum(["REG", "LRG"]),
   toppingIds: z.array(z.string().uuid()).max(10),
   qty: z.number().int().min(1).max(20),
   note: z.string().trim().max(120).optional(),

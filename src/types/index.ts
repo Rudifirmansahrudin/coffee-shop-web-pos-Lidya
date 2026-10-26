@@ -1,6 +1,6 @@
 // Types mirror supabase/schema.sql
 
-export type ProductSize = "REG" | LRG;
+export type ProductSize = "REG" | "LRG";
 
 export type OrderStatus =
   | "pending_payment"
@@ -27,7 +27,7 @@ export type Product = {
   description: string | null;
   /** REG price in rupiah */
   price: number;
-  /** LRG price in rupiah, null = single size product */
+  /** "LRG" price in rupiah, null = single size product */
   price_large: number | null;
   image_url: string | null;
   is_available: boolean;

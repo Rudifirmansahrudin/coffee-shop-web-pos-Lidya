@@ -6,11 +6,11 @@ import { Loader2, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/space/EmptyState";
 import { OrderCard } from "@/components/admin/orders/OrderCard";
 import {
-  ACTIVE_STATUSES,
+  BOARD_STATUSES,
   COLUMN_TITLE,
-  type ActiveStatus,
   type AdminOrder,
   type AdminRole,
+  type BoardStatus,
   type OrderAction,
 } from "@/lib/admin-orders";
 
@@ -21,7 +21,7 @@ type Props = {
 };
 
 type Message = { type: "error" | "ok"; text: string } | null;
-type Filter = ActiveStatus | "all";
+type Filter = BoardStatus | "all";
 // Some routes reply with `error`, others (admin-guard) with `message`
 type ApiReply = { error?: string; message?: string; created?: string[] };
 
@@ -180,15 +180,18 @@ export function OrdersBoard({ initialOrders, role, initialError }: Props) {
     }
   }
 
+  // Two columns only. Older orders in preparing/ready are grouped into "Dibayar".
   const byStatus = useMemo(() => {
-    const map: Record<ActiveStatus, AdminOrder[]> = {
+    const map: Record<BoardStatus, AdminOrder[]> = {
       pending_payment: [],
       paid: [],
-      preparing: [],
-      ready: [],
     };
     for (const o of orders) {
-      if (o.status in map) map[o.status as ActiveStatus].push(o);
+      if (o.status === "pending_payment") {
+        map.pending_payment.push(o);
+      } else if (o.status === "paid" || o.status === "preparing" || o.status === "ready") {
+        map.paid.push(o);
+      }
     }
     return map;
   }, [orders]);
@@ -269,9 +272,9 @@ export function OrdersBoard({ initialOrders, role, initialError }: Props) {
         </div>
       ) : (
         <>
-          {/* Desktop (lg): 4 column kanban */}
-          <div className="hidden items-start gap-4 lg:grid lg:grid-cols-4">
-            {ACTIVE_STATUSES.map((status) => (
+          {/* Desktop (lg): 2 column board */}
+          <div className="hidden items-start gap-4 lg:grid lg:grid-cols-2">
+            {BOARD_STATUSES.map((status) => (
               <section key={status} aria-label={COLUMN_TITLE[status]} className="rounded-2xl bg-matcha-soft/60 p-3">
                 <h2 className="mb-3 flex items-center justify-between px-1 font-heading text-sm font-semibold text-space-navy">
                   {COLUMN_TITLE[status]}
@@ -294,7 +297,7 @@ export function OrdersBoard({ initialOrders, role, initialError }: Props) {
           <div className="space-y-3 lg:hidden">
             <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Filter status">
               <FilterPill active={filter === "all"} onClick={() => setFilter("all")} label={`Semua (${orders.length})`} />
-              {ACTIVE_STATUSES.map((status) => (
+              {BOARD_STATUSES.map((status) => (
                 <FilterPill
                   key={status}
                   active={filter === status}

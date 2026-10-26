@@ -10,16 +10,19 @@ const bodySchema = z.object({
 
 type Action = z.infer<typeof bodySchema>["action"];
 
-// Allowed previous statuses and roles for each target status
+const STAFF: AdminRole[] = ["owner", "cashier"];
+
+// Allowed previous statuses and roles for each target status.
+// Simplified flow: a paid order can be completed directly (older preparing/ready orders too).
 const FLOW: Record<Action, { from: string[]; roles: AdminRole[] }> = {
-  preparing: { from: ["paid"], roles: ["owner", "cashier", "barista"] },
-  ready: { from: ["preparing"], roles: ["owner", "cashier", "barista"] },
-  completed: { from: ["ready"], roles: ["owner", "cashier"] },
-  cancelled: { from: ["pending_payment", "paid"], roles: ["owner", "cashier"] },
+  preparing: { from: ["paid"], roles: STAFF },
+  ready: { from: ["preparing"], roles: STAFF },
+  completed: { from: ["paid", "preparing", "ready"], roles: STAFF },
+  cancelled: { from: ["pending_payment", "paid", "preparing", "ready"], roles: STAFF },
 };
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-  const { role, error } = await requireRole(["owner", "cashier", "barista"]);
+  const { role, error } = await requireRole(STAFF);
   if (error || !role) return error;
 
   if (!idSchema.safeParse(params.id).success) {

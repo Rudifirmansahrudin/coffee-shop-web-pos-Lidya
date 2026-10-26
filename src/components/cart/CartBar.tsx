@@ -43,22 +43,25 @@ export function CartBar() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-haspopup="dialog"
-        className="fixed bottom-20 left-4 right-4 z-40 flex min-h-[56px] items-center justify-between rounded-2xl bg-matcha px-4 text-space-navy shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy md:bottom-4 md:left-1/2 md:right-auto md:w-[28rem] md:-translate-x-1/2 lg:hidden"
-      >
-        <span className="flex items-center gap-2 font-semibold">
-          <ShoppingBag className="h-5 w-5" aria-hidden="true" />
-          {count} item · Lihat keranjang
-        </span>
-        <span className="font-heading font-bold">{formatPrice(total)}</span>
-      </button>
+      {/* Hidden while the sheet is open so its text never overlaps the sheet */}
+      {!open && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-haspopup="dialog"
+          className="fixed bottom-20 left-4 right-4 z-40 flex min-h-[56px] items-center justify-between rounded-2xl bg-matcha px-4 text-space-navy shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-space-navy md:bottom-4 md:left-1/2 md:right-auto md:w-[28rem] md:-translate-x-1/2 lg:hidden"
+        >
+          <span className="flex items-center gap-2 font-semibold">
+            <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+            {count} item · Lihat keranjang
+          </span>
+          <span className="font-heading font-bold">{formatPrice(total)}</span>
+        </button>
+      )}
 
       {open && (
         <div
-          className="fixed inset-0 z-[60] lg:hidden"
+          className="fixed inset-0 z-[100] lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-labelledby="cart-sheet-title"
@@ -68,9 +71,9 @@ export function CartBar() {
             tabIndex={-1}
             aria-label="Tutup keranjang"
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-navy-bg/40"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
-          <div className="absolute inset-x-0 bottom-0 flex max-h-[85vh] flex-col rounded-t-2xl bg-surface md:inset-x-auto md:left-1/2 md:w-[32rem] md:-translate-x-1/2">
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[85vh] flex-col rounded-t-2xl border-t border-line bg-[rgb(var(--c-popover))] shadow-2xl md:inset-x-auto md:left-1/2 md:w-[32rem] md:-translate-x-1/2">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <div className="flex items-center gap-2">
                 <h2 id="cart-sheet-title" className="font-heading text-lg font-semibold text-space-navy">
