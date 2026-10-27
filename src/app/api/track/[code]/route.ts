@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { getServiceClient, ORDER_CODE_REGEX } from "@/lib/track-db";
 import type { OrderStatus } from "@/lib/order-status";
 
+// Order status changes often: never serve it from Next's data cache or route cache.
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function GET(
   _req: Request,
@@ -59,21 +62,24 @@ export async function GET(
     const rawWa = (contactRes.data?.value as { whatsapp?: string } | null)?.whatsapp;
     const whatsapp = rawWa ? rawWa.replace(/\D/g, "") || null : null;
 
-    return NextResponse.json({
-      order: {
-        code: order.code,
-        customerName: order.customer_name,
-        status: order.status as OrderStatus,
-        total: order.total,
-        createdAt: order.created_at,
-        paidAt: order.paid_at,
+    return NextResponse.json(
+      {
+        order: {
+          code: order.code,
+          customerName: order.customer_name,
+          status: order.status as OrderStatus,
+          total: order.total,
+          createdAt: order.created_at,
+          paidAt: order.paid_at,
+        },
+        items,
+        review: reviewRes.data
+          ? { rating: reviewRes.data.rating, comment: reviewRes.data.comment }
+          : null,
+        whatsapp,
       },
-      items,
-      review: reviewRes.data
-        ? { rating: reviewRes.data.rating, comment: reviewRes.data.comment }
-        : null,
-      whatsapp,
-    });
+      { headers: { "Cache-Control": "no-store" } }
+    );
   } catch {
     return NextResponse.json(
       { error: "Terjadi kesalahan. Coba lagi sebentar." },
