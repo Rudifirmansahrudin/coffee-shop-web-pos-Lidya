@@ -5,12 +5,13 @@ import type { MenuProduct } from "./types";
 
 interface ProductCardProps {
   product: MenuProduct;
+  // Opens the detail + options overlay (also for sold-out products)
   onAdd: (product: MenuProduct) => void;
 }
 
 export function ProductCard({ product, onAdd }: ProductCardProps) {
   return (
-    <li className="flex gap-3 rounded-2xl border border-line bg-surface p-3 lg:flex-col lg:gap-0 lg:overflow-hidden lg:p-0">
+    <li className="relative flex gap-3 rounded-2xl border border-line bg-surface p-3 lg:flex-col lg:gap-0 lg:overflow-hidden lg:p-0">
       <div
         className={`relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-matcha-soft lg:aspect-[4/3] lg:h-auto lg:w-full lg:rounded-none ${
           product.is_available ? "" : "opacity-60 grayscale"
@@ -47,7 +48,15 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
 
         <div className="min-w-0">
           <h3 className="font-heading text-base font-semibold leading-snug text-ink">
-            {product.name}
+            {/* Stretched button: the whole card opens the detail overlay */}
+            <button
+              type="button"
+              onClick={() => onAdd(product)}
+              aria-label={`Lihat detail ${product.name}`}
+              className="text-left after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-ink"
+            >
+              {product.name}
+            </button>
           </h3>
           {product.description && (
             <p className="mt-0.5 line-clamp-2 text-sm text-muted">{product.description}</p>
@@ -59,14 +68,17 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
           {/* text-primary-foreground = navy in both themes, so contrast on matcha stays high */}
           <button
             type="button"
-            disabled={!product.is_available}
             onClick={() => onAdd(product)}
             aria-label={
               product.is_available
                 ? `Tambah ${product.name}`
-                : `${product.name} sedang habis`
+                : `Lihat detail ${product.name} (sedang habis)`
             }
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-xl bg-matcha px-3 text-sm font-semibold text-primary-foreground transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:bg-line disabled:text-muted"
+            className={`relative z-10 inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-xl px-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+              product.is_available
+                ? "bg-matcha text-primary-foreground hover:brightness-95"
+                : "border border-line bg-transparent text-muted hover:bg-matcha-soft"
+            }`}
           >
             {product.is_available ? (
               <>
@@ -74,7 +86,7 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
                 Tambah
               </>
             ) : (
-              "Habis"
+              "Lihat"
             )}
           </button>
         </div>

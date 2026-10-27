@@ -7,13 +7,18 @@ export type OrderStatus =
   | "cancelled"
   | "expired";
 
+// Short flow shown to customers: pay, received, done.
+// "preparing" and "ready" still exist in the database for older orders (see stepKey).
 export const STEPS: { key: OrderStatus; label: string }[] = [
   { key: "pending_payment", label: "Menunggu Pembayaran" },
   { key: "paid", label: "Diterima" },
-  { key: "preparing", label: "Diracik" },
-  { key: "ready", label: "Siap Diambil" },
   { key: "completed", label: "Selesai" },
 ];
+
+// Maps any status to the step that represents it in STEPS
+export function stepKey(status: OrderStatus): OrderStatus {
+  return status === "preparing" || status === "ready" ? "paid" : status;
+}
 
 export type TrackItem = {
   name: string;

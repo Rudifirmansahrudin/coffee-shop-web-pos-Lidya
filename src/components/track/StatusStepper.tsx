@@ -1,8 +1,9 @@
 import { Check } from "lucide-react";
-import { STEPS, type OrderStatus } from "@/lib/order-status";
+import { STEPS, stepKey, type OrderStatus } from "@/lib/order-status";
 
 export function StatusStepper({ status }: { status: OrderStatus }) {
-  const currentIndex = STEPS.findIndex((s) => s.key === status);
+  // Older orders in preparing/ready are shown as "Diterima"
+  const currentIndex = STEPS.findIndex((s) => s.key === stepKey(status));
 
   return (
     <ol
