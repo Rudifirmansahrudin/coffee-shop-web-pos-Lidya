@@ -73,11 +73,28 @@ export function TrackClient({ code }: { code: string }) {
     };
   }, [supabase, code, load]);
 
+  // Mobile browsers freeze background tabs: refetch as soon as the tab is visible again
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === "visible") load();
+    };
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("focus", refresh);
+    window.addEventListener("online", refresh);
+    window.addEventListener("pageshow", refresh);
+    return () => {
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("online", refresh);
+      window.removeEventListener("pageshow", refresh);
+    };
+  }, [load]);
+
   // Fallback polling while the order is still active
   const status = data?.order.status;
   useEffect(() => {
     if (!status || ["completed", "cancelled", "expired"].includes(status)) return;
-    const id = setInterval(load, 15000);
+    const id = setInterval(load, 8000);
     return () => clearInterval(id);
   }, [status, load]);
 
