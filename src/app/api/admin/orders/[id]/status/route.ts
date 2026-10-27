@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { requireRole, type AdminRole } from "@/lib/admin-guard";
+import { broadcastOrderUpdate } from "@/lib/admin-orders-server";
 
 const idSchema = z.string().uuid();
 const bodySchema = z.object({
@@ -51,7 +52,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     .update({ status: action })
     .eq("id", params.id)
     .in("status", rule.from)
-    .select("id");
+    .select("id, code");
 
   if (dbError) {
     console.error("order status update failed", dbError);
@@ -62,6 +63,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       { error: "Status pesanan sudah berubah. Muat ulang lalu coba lagi." },
       { status: 409 }
     );
+  }
+
+  // Notify the customer tracking page (order:<code>); polling there is the fallback.
+  // The status is already saved, so a broadcast failure must not fail the request.
+  try {
+    await broadcastOrderUpdate(data[0].code as string, action);
+  } catch (e) {
+    console.error("order broadcast failed", e);
   }
 
   return NextResponse.json({ ok: true });
