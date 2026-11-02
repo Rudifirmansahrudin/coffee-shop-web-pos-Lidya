@@ -13,7 +13,8 @@ export function TopNav() {
 
   return (
     // keep-dark: stays dark on light-surface pages (menu, checkout, track) in dark mode
-    <header className="keep-dark nav-surface sticky top-0 z-40 hidden border-b md:block">
+    // "!sticky" so no custom CSS class can override the position
+    <header className="keep-dark nav-surface !sticky top-0 z-40 hidden border-b md:block">
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
         <Link
           href="/"

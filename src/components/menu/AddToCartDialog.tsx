@@ -8,9 +8,13 @@ import { sizeLabel } from "@/lib/size-label";
 import { useCartStore, type CartSize } from "@/lib/cart-store";
 import type { MenuProduct, MenuTopping } from "./types";
 
+type Step = "detail" | "options";
+
 interface AddToCartDialogProps {
   product: MenuProduct;
   toppings: MenuTopping[];
+  // Which step to open on: "detail" (preview) or "options" (size / topping / note / qty)
+  initialStep?: Step;
   onClose: () => void;
   onAdded: (productName: string) => void;
 }
@@ -19,13 +23,17 @@ const MAX_QTY = 20;
 const MAX_NOTE = 100;
 const QUICK_NOTES = ["Less sugar", "No sugar", "Less ice", "No ice"] as const;
 
-type Step = "detail" | "options";
-
-export function AddToCartDialog({ product, toppings, onClose, onAdded }: AddToCartDialogProps) {
+export function AddToCartDialog({
+  product,
+  toppings,
+  initialStep = "detail",
+  onClose,
+  onAdded,
+}: AddToCartDialogProps) {
   const addItem = useCartStore((s) => s.addItem);
 
   // Step 1 = preview only, step 2 = size / topping / note / qty
-  const [step, setStep] = useState<Step>("detail");
+  const [step, setStep] = useState<Step>(initialStep);
   const [size, setSize] = useState<CartSize>("REG");
   const [selected, setSelected] = useState<string[]>([]);
   const [quick, setQuick] = useState<string[]>([]);

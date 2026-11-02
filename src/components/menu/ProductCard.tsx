@@ -5,11 +5,13 @@ import type { MenuProduct } from "./types";
 
 interface ProductCardProps {
   product: MenuProduct;
-  // Opens the detail + options overlay (also for sold-out products)
+  // Opens the preview overlay (tap on image / name, or "Lihat" for sold-out products)
+  onPreview: (product: MenuProduct) => void;
+  // Opens the options overlay directly (size, topping, note, qty)
   onAdd: (product: MenuProduct) => void;
 }
 
-export function ProductCard({ product, onAdd }: ProductCardProps) {
+export function ProductCard({ product, onPreview, onAdd }: ProductCardProps) {
   return (
     <li className="relative flex gap-3 rounded-2xl border border-line bg-surface p-3 lg:flex-col lg:gap-0 lg:overflow-hidden lg:p-0">
       <div
@@ -48,10 +50,10 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
 
         <div className="min-w-0">
           <h3 className="font-heading text-base font-semibold leading-snug text-ink">
-            {/* Stretched button: the whole card opens the detail overlay */}
+            {/* Stretched button: tapping the image or anywhere on the card opens the preview */}
             <button
               type="button"
-              onClick={() => onAdd(product)}
+              onClick={() => onPreview(product)}
               aria-label={`Lihat detail ${product.name}`}
               className="text-left after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-ink"
             >
@@ -65,10 +67,10 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
 
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2">
           <p className="text-sm font-semibold text-ink">{formatRupiah(product.price)}</p>
-          {/* text-primary-foreground = navy in both themes, so contrast on matcha stays high */}
+          {/* z-10 keeps this button above the stretched preview button */}
           <button
             type="button"
-            onClick={() => onAdd(product)}
+            onClick={() => (product.is_available ? onAdd(product) : onPreview(product))}
             aria-label={
               product.is_available
                 ? `Tambah ${product.name}`

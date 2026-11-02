@@ -1,6 +1,7 @@
 import { Lightbulb, Receipt, ShoppingBag, Timer, Wallet } from "lucide-react";
 import DashboardCharts from "@/components/admin/DashboardCharts";
 import { buildInsights, formatRupiah, getDashboardData } from "@/lib/dashboard-data";
+import { ReviewsPanel } from "@/components/admin/ReviewsPanel";
 import type { DashboardData } from "@/lib/dashboard-data";
 
 export const dynamic = "force-dynamic";
@@ -79,6 +80,8 @@ export default async function AdminDashboardPage() {
         busyHours={data.busyHours}
         viewsByDay={data.viewsByDay}
       />
+
+      <ReviewsPanel />
     </div>
   );
 }

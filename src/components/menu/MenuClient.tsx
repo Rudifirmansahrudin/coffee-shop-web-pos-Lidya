@@ -14,13 +14,16 @@ interface MenuClientProps {
   tableNo: string | null;
 }
 
+// Which product is open in the overlay, and on which step it starts
+type Selection = { product: MenuProduct; step: "detail" | "options" };
+
 export function MenuClient({ categories, products, toppings, tableNo }: MenuClientProps) {
   const setTableNo = useCartStore((s) => s.setTableNo);
 
   const [active, setActive] = useState<string>("all");
   const [query, setQuery] = useState("");
   const [onlyAvailable, setOnlyAvailable] = useState(false);
-  const [selected, setSelected] = useState<MenuProduct | null>(null);
+  const [selected, setSelected] = useState<Selection | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
   // Remember table number from QR link (?meja=N)
@@ -137,7 +140,12 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
               {/* Fewer columns than before: the cart sidebar takes the right side on lg */}
               <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:gap-4 xl:grid-cols-3">
                 {items.map((p) => (
-                  <ProductCard key={p.id} product={p} onAdd={setSelected} />
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    onPreview={(product) => setSelected({ product, step: "detail" })}
+                    onAdd={(product) => setSelected({ product, step: "options" })}
+                  />
                 ))}
               </ul>
             </section>
@@ -147,9 +155,10 @@ export function MenuClient({ categories, products, toppings, tableNo }: MenuClie
 
       {selected && (
         <AddToCartDialog
-          key={selected.id}
-          product={selected}
+          key={`${selected.product.id}-${selected.step}`}
+          product={selected.product}
           toppings={toppings}
+          initialStep={selected.step}
           onClose={() => setSelected(null)}
           onAdded={(name) => setNotice(`${name} masuk keranjang`)}
         />

@@ -10,9 +10,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     <div className="flex min-h-screen flex-col">
       <PageViewTracker />
       <MobileTopBar />
-      <div className="hidden md:block">
-        <TopNav />
-      </div>
+      {/* No wrapper div: sticky only works inside a tall parent. TopNav hides itself below md. */}
+      <TopNav />
       <main className="flex-1">{children}</main>
       <Footer />
       <BottomNav />
