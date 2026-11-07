@@ -14,9 +14,10 @@ interface ProductCardProps {
 export function ProductCard({ product, onPreview, onAdd }: ProductCardProps) {
   return (
     <li className="relative flex gap-3 rounded-2xl border border-line bg-surface p-3 lg:flex-col lg:gap-0 lg:overflow-hidden lg:p-0">
-      {/* Frame is locked to 1:1 (same as the product artwork) so object-cover never crops it */}
+      {/* Frame is locked to 1:1 (same as the product artwork) so object-cover never crops it.
+          self-start stops the flex row from stretching the frame taller than its width on mobile. */}
       <div
-        className={`relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl bg-matcha-soft lg:w-full lg:rounded-none ${
+        className={`relative aspect-square w-24 shrink-0 self-start overflow-hidden rounded-xl bg-matcha-soft lg:w-full lg:self-auto lg:rounded-none ${
           product.is_available ? "" : "opacity-60 grayscale"
         }`}
       >
