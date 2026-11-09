@@ -79,6 +79,23 @@ const ACTIVITIES: Activity[] = [
   { title: "Keputusan", text: "Dashboard dan insight", icon: BarChart3 },
 ];
 
+// ---------------------------------------------------------------------------
+// GALLERY: replace a placeholder by setting its src to a photo URL (or a file
+// in /public/gallery) and isPhoto to true. Remote hosts must be listed in
+// next.config images.remotePatterns.
+// ---------------------------------------------------------------------------
+type GalleryItem = { src: string; alt: string; isPhoto: boolean };
+const GALLERY: GalleryItem[] = [
+  {
+    src: "https://i.ibb.co.com/S7xgJ9TK/photo-2026-11-09-20-33-36.jpg",
+    alt: "Suasana Space Coffee and Matcha",
+    isPhoto: true,
+  },
+  { src: "/menu/default.svg", alt: "Foto kedai Space Coffee (placeholder 2)", isPhoto: false },
+  { src: "/menu/default.svg", alt: "Foto kedai Space Coffee (placeholder 3)", isPhoto: false },
+  { src: "/menu/default.svg", alt: "Foto kedai Space Coffee (placeholder 4)", isPhoto: false },
+];
+
 function stringList(v: unknown): string[] {
   return Array.isArray(v) ? v.map((x) => asString(x)).filter(Boolean) : [];
 }
@@ -280,17 +297,17 @@ export default async function TentangPage() {
       <section className="mt-10" aria-label="Galeri">
         <h2 className="font-heading text-xl font-semibold text-space-navy">Galeri</h2>
         <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((n) => (
+          {GALLERY.map((item) => (
             <div
-              key={n}
+              key={item.alt}
               className="relative aspect-square overflow-hidden rounded-2xl border border-line bg-matcha-soft"
             >
               <Image
-                src="/menu/default.svg"
-                alt={`Foto kedai Space Coffee (placeholder ${n})`}
+                src={item.src}
+                alt={item.alt}
                 fill
                 sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-contain p-6"
+                className={item.isPhoto ? "object-cover" : "object-contain p-6"}
                 loading="lazy"
               />
             </div>
